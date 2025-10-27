@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KataBijakController;
+use App\Http\Controllers\BarangController;
 
 //default
 Route::get('/', function () {
@@ -61,9 +62,9 @@ Route::prefix('admin')->group(function () {
 });
 
 //10 route fallback
-Route::fallback(function () {
-    return 'Halaman tidak ditemukan';
-});
+// Route::fallback(function () {
+//     return 'Halaman tidak ditemukan';
+// });
 
 //10 A.
 Route::get('kata-bijak/kata', [KataBijakController::class, 'kata']);
@@ -75,3 +76,5 @@ Route::get('kata-bijak/pepatah', [KataBijakController::class, 'pepatah'])->name(
 use App\Http\Controllers\PropinsiController;
 
 Route::resource('propinsi', PropinsiController::class);
+
+Route::resource('barangs', BarangController::class);
