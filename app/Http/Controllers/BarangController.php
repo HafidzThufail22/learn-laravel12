@@ -31,7 +31,7 @@ class BarangController extends Controller
     // UPDATE: Menampilkan form edit
     public function edit(Barang $barang)
     {
-        return view('barang.edit', compact('barang')); // 🚩 Ubah ke 'barang.edit'
+        return view('barang.edit', compact('barang'));
     }
 
     // UPDATE: Memperbarui data

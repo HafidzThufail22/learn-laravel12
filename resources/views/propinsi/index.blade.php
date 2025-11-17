@@ -11,7 +11,7 @@
 </div>
 @endif
 <table class="table table-responsive martop-sm">
-    <thead>
+    <thead> 
         <th>ID</th>
         <th>Propinsi</th>
         <th>Action</th>

@@ -5,6 +5,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KataBijakController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\PropinsiController;
+use App\Http\Controllers\KotaController;
+use App\Http\Controllers\EloController;
+use App\Http\Controllers\AnggotaController;
 
 //default
 Route::get('/', function () {
@@ -73,8 +77,30 @@ Route::get('kata-bijak/kata', [KataBijakController::class, 'kata']);
 Route::get('kata-bijak/pepatah', [KataBijakController::class, 'pepatah'])->name('kataPepatah');
 
 //propinsi route
-use App\Http\Controllers\PropinsiController;
+
 
 Route::resource('propinsi', PropinsiController::class);
 
 Route::resource('barangs', BarangController::class);
+
+// anggota resource routes
+Route::resource('anggota', AnggotaController::class);
+
+Route::resource('kota', KotaController::class)->parameters([
+    'kota' => 'kota'
+]);
+
+
+
+Route::get('elo/bacaAll', [EloController::class, 'bacaAll']);
+
+Route::get('elo/bacaAllRelasi', [EloController::class, 'bacaAllRelasi']);
+
+Route::get('elo/bacaSatu', [EloController::class, 'bacaSatu']);
+
+Route::get('elo/bacaPilih', [EloController::class, 'bacaPilih']);
+
+Route::get('elo/tambahKota', [
+    EloController::class,
+    'tambahKota'
+]);

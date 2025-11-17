@@ -8,6 +8,7 @@ use Database\Seeders\KotaTableSeeder;
 use Database\Seeders\PropinsiTableSeeder;
 use Database\Seeders\PenerbitTableSeeder;
 use Database\Seeders\BukuSeeder;
+use Database\Seeders\AnggotaSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +20,7 @@ class DatabaseSeeder extends Seeder
             PenerbitTableSeeder::class,
             BukuSeeder::class,
             BarangSeeder::class,
+            AnggotaSeeder::class
         ]);
     }
 }
