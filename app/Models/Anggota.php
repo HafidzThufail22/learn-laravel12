@@ -15,3 +15,4 @@ class Anggota extends Model
         'tanggal_lahir',
     ];
 }
+
