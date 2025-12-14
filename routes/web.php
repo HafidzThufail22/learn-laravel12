@@ -1,106 +1,42 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\KataBijakController;
-use App\Http\Controllers\BarangController;
-use App\Http\Controllers\PropinsiController;
-use App\Http\Controllers\KotaController;
-use App\Http\Controllers\EloController;
-use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\KotaAuthController;
 
-//default
 Route::get('/', function () {
     return view('welcome');
 });
 
-//01 route dasar
-Route::get('/halo', function () {
-    return 'Halo Laravel!';
-});
-
-//02 route dengan view
 Route::get('/dashboard', function () {
-    return view('dashboard'); //resources/views/dashboard.blade.php
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-//03 route dengan parameter
-Route::get('/user/{nama}', function ($nama) {
-    return "Halo, $nama!";
+require __DIR__ . '/auth.php';
+
+// Route::get('/kota/gate', 'KotaController@gate');
+Route::get('/kota/gate', [App\Http\Controllers\KotaController::class, 'gate'])
+    ->middleware('auth');
+
+//route test relasi
+Route::get('/kota/test-relasi', [App\Http\Controllers\KotaController::class, 'testRelasi']);
+
+// Route resource untuk CRUD Kota
+Route::middleware('auth')->group(function () {
+    Route::resource('kota', App\Http\Controllers\KotaController::class)->parameters([
+        'kota' => 'kota'
+    ]);
 });
 
-//04 route dengan parameter opsional
-Route::get('/produk/{id?}', function ($id = null) {
-    return $id ? "Produk ID: $id" : "Tidak ada ID produk";
+Route::middleware('auth')->group(function () {
+    Route::get('/kotaAut/view', [KotaAuthController::class, 'view']);
+    Route::get('/kotaAut/create', [KotaAuthController::class, 'create']);
+    Route::get('/kotaAut/update', [KotaAuthController::class, 'update']);
+    Route::get('/kotaAut/delete', [KotaAuthController::class, 'delete']);
 });
-
-//05 Route dengan Regular Expression Constraint
-Route::get('/kategori/{nama}', function ($nama) {
-    return "Kategori: $nama";
-})->where('nama', '[A-Za-z]+');
-
-//06 Route dengan nama / Named Route
-Route::get('/profil', function () {
-    return 'Ini halaman profil';
-})->name('profil');
-
-Route::get('/link-profil', function () {
-    return route('profil');
-});
-
-//07 route ke Controller
-Route::get('/home', [HomeController::class, 'index']);
-
-//08 route resource
-Route::resource('produk', ProdukController::class);
-
-//09 route group dengan middleware & prefix
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return 'Halaman Dashboard Admin';
-    });
-    Route::get('/laporan', function () {
-        return 'Halaman Laporan Admin';
-    });
-});
-
-//10 route fallback
-// Route::fallback(function () {
-//     return 'Halaman tidak ditemukan';
-// });
-
-//10 A.
-Route::get('kata-bijak/kata', [KataBijakController::class, 'kata']);
-
-//11 mengguunakan controller dan view
-Route::get('kata-bijak/pepatah', [KataBijakController::class, 'pepatah'])->name('kataPepatah');
-
-//propinsi route
-
-
-Route::resource('propinsi', PropinsiController::class);
-
-Route::resource('barangs', BarangController::class);
-
-// anggota resource routes
-Route::resource('anggota', AnggotaController::class);
-
-Route::resource('kota', KotaController::class)->parameters([
-    'kota' => 'kota'
-]);
-
-
-
-Route::get('elo/bacaAll', [EloController::class, 'bacaAll']);
-
-Route::get('elo/bacaAllRelasi', [EloController::class, 'bacaAllRelasi']);
-
-Route::get('elo/bacaSatu', [EloController::class, 'bacaSatu']);
-
-Route::get('elo/bacaPilih', [EloController::class, 'bacaPilih']);
-
-Route::get('elo/tambahKota', [
-    EloController::class,
-    'tambahKota'
-]);
