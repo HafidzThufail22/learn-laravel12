@@ -32,7 +32,3 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 }
-
-
-
-
